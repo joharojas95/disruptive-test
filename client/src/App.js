@@ -20,7 +20,7 @@ function App() {
       const role = decoded.role
       const user_id = decoded.id
       const user_name = decoded.username
-      return <BaseLogin role={role}>{cloneElement(children, { role, user_id, user_name })}</BaseLogin>;
+      return <BaseLogin role={role}>{cloneElement(children, { role, user_id, user_name, token })}</BaseLogin>;
     } else {
       return <Navigate to="/login" />;
     }

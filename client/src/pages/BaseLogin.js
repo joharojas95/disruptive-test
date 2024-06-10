@@ -209,7 +209,6 @@ function Base(props) {
       >
         <Toolbar />
         {children}
-        {/* <ActionAreaCard /> */}
       </Box>
     </Box>
   );

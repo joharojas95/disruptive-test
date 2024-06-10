@@ -20,7 +20,7 @@ const initialSnackbar = {
     type: "success",
 };
 
-export default function Categories() {
+export default function Categories({ token }) {
     const [openModal, setOpenModal] = useState(false);
     const [currentCategory, setCurrentCategory] = useState({});
     const [updateCategory, setUpdateCategory] = useState(false);
@@ -28,7 +28,6 @@ export default function Categories() {
     const [allCategories, setAllCategories] = useState([]);
     const [showSnackbar, setShowSnackbar] = useState(initialSnackbar);
     const [openBackdrop, setOpenBackdrop] = useState(false);
-    const token = localStorage.getItem('token');
 
     const handleDeleteCategory = async (e, id) => {
         e.preventDefault()
@@ -157,6 +156,7 @@ export default function Categories() {
                     getCategories={getCategories}
                     setShowSnackbar={setShowSnackbar}
                     setOpenBackdrop={setOpenBackdrop}
+                    token={token}
                 />
             </Box>
             <SnackBar

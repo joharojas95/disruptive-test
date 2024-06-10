@@ -22,12 +22,12 @@ export default function ThemesModal({
     setUpdateTheme,
     setCurrentTheme,
     allCategories,
-    getThemes
+    getThemes,
+    token
 }) {
     const [desc, setDesc] = React.useState("");
     const [error, setError] = React.useState(false);
     const [multiple, setMultiple] = React.useState([]);
-    const token = localStorage.getItem('token');
 
     React.useEffect(() => {
         if (updateTheme) {

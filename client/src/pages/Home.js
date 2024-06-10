@@ -3,18 +3,10 @@ import Base from "./Base"
 import axios from "axios";
 import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
-import moment from 'moment';
-import 'moment/locale/es';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import { CardActionArea } from '@mui/material';
-import Chip from '@mui/material/Chip';
-import Stack from '@mui/material/Stack';
 import Grid from '@mui/material/Grid';
-import { useNavigate } from "react-router-dom";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
+import ActionAreaCard from "../components/ActionAreaCard"
 
 const responsive = {
   superLargeDesktop: {
@@ -35,12 +27,11 @@ const responsive = {
   }
 };
 
-function Home(props) {
+function Home() {
 
   const [allCategories, setAllCategories] = useState([]);
   const [allThemes, setAllThemes] = useState([]);
   const [allContent, setAllContent] = useState([]);
-  const navigate = useNavigate();
 
   const getCategories = async () => {
     await axios.get("/category/all")
@@ -78,14 +69,6 @@ function Home(props) {
     getContent()
   }, [])
 
-  const goToView = (content) => {
-    navigate("/view/content", {
-      state: {
-        content: content,
-      },
-    });
-  }
-
   return (
     <Base>
       {allCategories.length > 0 ? allCategories.map((category) => {
@@ -110,29 +93,7 @@ function Home(props) {
                           >
                             {allContent.filter((item) => item.theme._id === theme._id && item.category._id === category._id).map((content) => (
                               <div key={content._id} style={{ padding: '0px 20px 20px 20px' }}> {/* Add padding for spacing */}
-                                <Card sx={{ width: "100%" }}>
-                                  <CardActionArea onClick={() => goToView(content)}>
-                                    <CardMedia
-                                      component="img"
-                                      height="200"
-                                      image={content.img}
-                                    />
-                                    <CardContent>
-                                      <Typography gutterBottom variant="h5" component="div">
-                                        {content.name}
-                                      </Typography>
-                                      <Stack direction="row" sx={{ justifyContent: "space-between" }}>
-                                        <Typography variant="body2" color="text.secondary">
-                                          Créditos: {content.user.username}<br />
-                                          Publicado el: {moment(content.creation_date).format('DD MMM YYYY')}
-                                        </Typography>
-                                        <Typography variant="body2" color="text.secondary">
-                                          <Chip label={content.theme.name} style={{ backgroundColor: content.theme.color }} />
-                                        </Typography>
-                                      </Stack>
-                                    </CardContent>
-                                  </CardActionArea>
-                                </Card>
+                                <ActionAreaCard content={content} />
                               </div>
                             ))}
                           </Carousel>

@@ -4,24 +4,45 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { CardActionArea } from '@mui/material';
+import { useNavigate } from "react-router-dom";
+import Stack from '@mui/material/Stack';
+import Chip from '@mui/material/Chip';
+import moment from 'moment';
+import 'moment/locale/es';
 
-export default function ActionAreaCard({ title }) {
+export default function ActionAreaCard({ content }) {
+
+  const navigate = useNavigate();
+
+  const goToView = (content) => {
+    navigate("/view/content", {
+      state: {
+        content: content,
+      },
+    });
+  }
+
   return (
     <Card sx={{ width: "100%" }}>
-      <CardActionArea>
+      <CardActionArea onClick={() => goToView(content)}>
         <CardMedia
           component="img"
-          height="250"
-          image="https://img.freepik.com/foto-gratis/colores-arremolinados-interactuan-danza-fluida-sobre-lienzo-que-muestra-tonos-vibrantes-patrones-dinamicos-que-capturan-caos-belleza-arte-abstracto_157027-2892.jpg?t=st=1717884750~exp=1717888350~hmac=018573d8860e21f415b3abea366a86a291f5f1ab4857c299bb51ce451541463b&w=826"
+          height="200"
+          image={content.img}
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
-            {title}
+            {content.name}
           </Typography>
-          <Typography variant="body2" color="text.secondary">
-            Lizards are a widespread group of squamate reptiles, with over 6,000
-            species, ranging across all continents except Antarctica
-          </Typography>
+          <Stack direction="row" sx={{ justifyContent: "space-between" }}>
+            <Typography variant="body2" color="text.secondary">
+              Créditos: {content.user.username}<br />
+              Publicado el: {moment(content.creation_date).format('DD MMM YYYY')}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              <Chip label={content.theme.name} style={{ backgroundColor: content.theme.color }} />
+            </Typography>
+          </Stack>
         </CardContent>
       </CardActionArea>
     </Card>

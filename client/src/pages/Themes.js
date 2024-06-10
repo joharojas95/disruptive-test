@@ -12,14 +12,12 @@ import EditIcon from "@mui/icons-material/Edit";
 import Tooltip from "@mui/material/Tooltip";
 import IconButton from '@mui/material/IconButton';
 
-export default function Themes() {
+export default function Themes({ token }) {
     const [openModal, setOpenModal] = useState(false);
     const [currentTheme, setCurrentTheme] = useState({});
     const [updateTheme, setUpdateTheme] = useState(false);
     const [allCategories, setAllCategories] = useState([]);
     const [allThemes, setAllThemes] = useState([]);
-
-    const token = localStorage.getItem('token');
 
     const handleDeleteTheme = async (e, id) => {
         e.preventDefault()
@@ -132,7 +130,7 @@ export default function Themes() {
             <Grid container spacing={2}>
                 <Grid item xs={12}>
                     <Stack direction="row" sx={{ justifyContent: "space-between" }}>
-                    <Typography variant="h6">Lista de temas</Typography>
+                        <Typography variant="h6">Lista de temas</Typography>
                         <Button variant="contained" onClick={handleAddModal}>Agregar</Button>
                     </Stack>
                 </Grid>
@@ -149,6 +147,7 @@ export default function Themes() {
                 setCurrentTheme={setCurrentTheme}
                 allCategories={allCategories}
                 getThemes={getThemes}
+                token={token}
             />
         </>
     );

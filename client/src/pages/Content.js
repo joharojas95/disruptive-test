@@ -22,7 +22,7 @@ const initialSnackbar = {
     type: "success",
 };
 
-export default function Content() {
+export default function Content({ token }) {
     const [openModal, setOpenModal] = useState(false);
     const [currentContent, setCurrentContent] = useState({});
     const [updateContent, setUpdateContent] = useState(false);
@@ -30,8 +30,6 @@ export default function Content() {
     const [allContents, setAllContents] = useState([]);
     const [showSnackbar, setShowSnackbar] = useState(initialSnackbar);
     const [openBackdrop, setOpenBackdrop] = useState(false);
-
-    const token = localStorage.getItem('token');
     const decoded = jwtDecode(token);
 
     const handleDeleteContent = async (e, id) => {
@@ -149,7 +147,7 @@ export default function Content() {
                         </Stack>
                     </Grid>
                     <Grid item xs={12}>
-                        <CustomTable rows={allContents} headers={['Nombre del contenido', 'Tema', 'Tipo de contenido', 'Creador por', 'Creador el', 'Acciones']} cells={['name', 'theme.name', 'category.name', 'user.username', 'creation_date','actions']} />
+                        <CustomTable rows={allContents} headers={['Nombre del contenido', 'Tema', 'Tipo de contenido', 'Creador por', 'Creador el', 'Acciones']} cells={['name', 'theme.name', 'category.name', 'user.username', 'creation_date', 'actions']} />
                     </Grid>
                 </Grid>
                 <ContentModal

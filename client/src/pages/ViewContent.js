@@ -22,11 +22,9 @@ function ViewContent() {
   const [content, setContent] = useState({})
   const [role, setRole] = useState("guess")
 
-
   useEffect(() => {
     (async () => {
       if (location?.state?.content) {
-        console.log(location.state.content)
         setContent(location.state.content)
         const token = localStorage.getItem('token');
         if (token) {
@@ -45,7 +43,7 @@ function ViewContent() {
   const downloadFile = async (id) => {
     try {
       const response = await axios({
-        url: '/content/download/'+id, // URL del servidor backend
+        url: '/content/download/' + id, // URL del servidor backend
         method: 'GET',
         responseType: 'blob', // Cambia el tipo de respuesta a 'blob'
       });
@@ -102,7 +100,7 @@ function ViewContent() {
                   : content.category.type.name === "URLs de YouTube" ?
                     <AutoIframe src={content.content} />
                     : <Button variant="contained" color="primary" onClick={() => downloadFile(content._id)}>
-                      Descargar archivo TXT
+                      Descargar archivo
                     </Button>
               )}
           </Box>
@@ -112,10 +110,6 @@ function ViewContent() {
               <Typography variant="body2" color="text.secondary">
                 Créditos: {content.user.username}<br></br>
                 Publicado el: {moment(content.creation_date).format('DD MMM YYYY')}
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-
-
               </Typography>
             </Stack>
           </Box>

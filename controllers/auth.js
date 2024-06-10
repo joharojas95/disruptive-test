@@ -43,7 +43,7 @@ module.exports = function (app) {
             // Check if the user exists
             let user = await User.findOne({ email });
             if (!user  || !user.comparePassword(password)) {
-                return res.status(400).json({ msg: 'Invalid credentials' });
+                return res.status(400).json({ msg: 'Credenciales inválidas' });
             }
 
             const payload = { id: user._id, role: user.role, username: user.username };

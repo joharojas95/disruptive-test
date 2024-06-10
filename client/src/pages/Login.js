@@ -22,7 +22,7 @@ function Login(props) {
       <Base>
         {register ?
           <RegisterCard setRegister={setRegister} setOpenBackdrop={setOpenBackdrop} setShowSnackbar={setShowSnackbar} /> :
-          <LoginCard setRegister={setRegister} openBackdrop={openBackdrop} setOpenBackdrop={setOpenBackdrop} />
+          <LoginCard setRegister={setRegister} openBackdrop={openBackdrop} setOpenBackdrop={setOpenBackdrop} setShowSnackbar={setShowSnackbar} />
         }
       </Base>
       <Backdrop open={openBackdrop} />

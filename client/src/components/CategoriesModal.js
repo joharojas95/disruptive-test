@@ -23,12 +23,12 @@ export default function CategoriesModal({
     allTypes,
     getCategories,
     setShowSnackbar,
-    setOpenBackdrop
+    setOpenBackdrop,
+    token
 }) {
     const [desc, setDesc] = React.useState("");
     const [option, setOption] = React.useState("");
     const [error, setError] = React.useState(false);
-    const token = localStorage.getItem('token');
 
     const handleChange = (event) => {
         setOption(event.target.value);

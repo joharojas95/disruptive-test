@@ -11,10 +11,11 @@ import TextField from '@mui/material/TextField';
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 
-export default function LoginCard({ setRegister }) {
+export default function LoginCard({ setRegister, setShowSnackbar }) {
 
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
+    const [isError, setIsError] = React.useState(false);
 
     const navigate = useNavigate();
 
@@ -37,19 +38,18 @@ export default function LoginCard({ setRegister }) {
                             navigate("/dashboard");
                         }
                     })
-                    .catch((err) => {
-                        console.log(err)
-                        //setAlertType("error");
-                        //setShow(true);
+                    .catch((error) => {
+                        setShowSnackbar({
+                            show: true,
+                            text: error.response.data.msg ?? error.message,
+                            type: "error",
+                        });
                     });
-
-                //setIsError(false);
-                //setIsLoading(false);
             } else {
-                //setIsError(true);
+                setIsError(true);
             }
         } else {
-            //setIsError(true);
+            setIsError(true);
         }
     };
 
@@ -62,7 +62,6 @@ export default function LoginCard({ setRegister }) {
                         borderRadius: 2,
                         bgcolor: 'background.default',
                         display: 'grid',
-                        //gridTemplateColumns: { md: '1fr 1fr' },
                         gap: 2,
                     }}
                 >
@@ -83,6 +82,8 @@ export default function LoginCard({ setRegister }) {
                                     }}
                                     sx={{ width: "100%" }}
                                     required
+                                    error={(isError && email === "")}
+                                    helperText={(isError && email === "") ? "Campo requerido" : ""}
                                 />
                                 <TextField
                                     type="password"
@@ -95,6 +96,8 @@ export default function LoginCard({ setRegister }) {
                                     }}
                                     sx={{ width: "100%", mt: 2 }}
                                     required
+                                    error={(isError && password === "")}
+                                    helperText={(isError && password === "") ? "Campo requerido" : ""}
                                 />
                                 <Button variant="contained" sx={{ my: 5, ml: "auto", mr: "auto" }} onClick={login}>Acceder</Button>
                                 <Typography textAlign="center">Si no tienes cuenta, regístrate <Link component="button" onClick={() => setRegister(true)}>aquí.</Link></Typography>

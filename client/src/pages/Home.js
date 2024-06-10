@@ -91,7 +91,6 @@ function Home(props) {
       {allCategories.length > 0 ? allCategories.map((category) => {
         if (allContent.filter((item) => item.category._id === category._id).length > 0) {
           return (
-
             <div key={category._id}>
               <Typography variant="h4">Categoría: {category.name} ({allContent.filter((item) => item.category._id === category._id).length === 0 ? "0" : "+" + allContent.filter((item) => item.category._id === category._id).length})</Typography>
               <Divider pb={2} />

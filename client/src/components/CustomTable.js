@@ -154,6 +154,7 @@ export default function CustomTable({ rows, headers, cells, actions, reload }) {
                             <TableCell colSpan={6} />
                         </TableRow>
                     )}
+                    {rows.length === 0 && <TableCell colSpan={12} component="th" scope="row">No hay información para mostrar.</TableCell>}
                 </TableBody>
                 <TableFooter>
                     <TableRow>

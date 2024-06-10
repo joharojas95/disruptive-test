@@ -5,8 +5,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import IconButton from '@mui/material/IconButton';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-//import ActionAreaCard from "../components/ActionAreaCard"
-import LocalLibraryIcon from '@mui/icons-material/LocalLibrary';
+import MenuBookIcon from '@mui/icons-material/MenuBook';
 import Button from '@mui/material/Button';
 import { useNavigate } from "react-router-dom";
 import Stack from '@mui/material/Stack';
@@ -60,17 +59,17 @@ function Base(props) {
             sx={{ mr: 1 }}
             onClick={() => goToUrl('/')}
           >
-            <LocalLibraryIcon />
+            <MenuBookIcon />
           </IconButton>
 
-          <Stack direction="row" justifyContent="space-between" sx={{ width: "100%" }}>
+          <Stack direction={{ xs: 'column', sm: 'row' }} justifyContent={{ xs: "center", sm: 'space-between' }} alignItems="center" sx={{ width: "100%" }} spacing={2}>
             <Typography variant="h5" noWrap component="div" onClick={() => goToUrl('/')} sx={{ cursor: "pointer" }}>
               Biblioteca de contenidos
             </Typography>
-            <Box>
-              {login && <Button variant="outlined" color="inherit" sx={{ ml: 1 }} onClick={() => goToDashboard()}>Ir al dashboard</Button>}
-              <Button variant="outlined" color="inherit" sx={{ ml: 1 }} onClick={login ? () => logout() : () => goToLogin()}>{login ? "Cerrar sesión" : "Iniciar sesión"}</Button>
-            </Box>
+            <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1} sx={{ pb: { xs: 2, sm: 0 } }}>
+              {login && <Button variant="outlined" color="inherit" onClick={() => goToDashboard()}>Ir al dashboard</Button>}
+              <Button variant="outlined" color="inherit" onClick={login ? () => logout() : () => goToLogin()}>{login ? "Cerrar sesión" : "Iniciar sesión"}</Button>
+            </Stack>
           </Stack>
         </Toolbar>
       </AppBar>

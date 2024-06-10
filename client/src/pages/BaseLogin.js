@@ -5,7 +5,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
+import DashboardIcon from '@mui/icons-material/Dashboard';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -15,11 +15,14 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
-//import ActionAreaCard from "../components/ActionAreaCard"
-import LocalLibraryIcon from '@mui/icons-material/LocalLibrary';
+import ClassIcon from '@mui/icons-material/Class';
 import Button from '@mui/material/Button';
 import { useNavigate } from "react-router-dom";
+import DynamicFeedIcon from '@mui/icons-material/DynamicFeed';
+import MenuBookIcon from '@mui/icons-material/MenuBook';
+import CategoryIcon from '@mui/icons-material/Category';
 const drawerWidth = 240;
+
 
 function Base(props) {
 
@@ -48,27 +51,45 @@ function Base(props) {
     if (role === "admin") {
       setMenu([
         {
+          text: "Dashboard",
+          icon: <DashboardIcon />,
+          url: '/dashboard'
+        },
+        {
           text: "Categorías",
-          icon: <InboxIcon />,
+          icon: <CategoryIcon />,
           url: '/categories'
         },
         {
           text: "Temas",
-          icon: <InboxIcon />,
+          icon: <ClassIcon />,
           url: '/themes'
         },
         {
           text: "Contenido",
-          icon: <InboxIcon />,
+          icon: <DynamicFeedIcon />,
           url: '/content'
         },
       ])
     } else if (role === "creator") {
       setMenu([
         {
+          text: "Dashboard",
+          icon: <DashboardIcon />,
+          url: '/dashboard'
+        },
+        {
           text: "Contenido",
-          icon: <InboxIcon />,
+          icon: <DynamicFeedIcon />,
           url: '/content'
+        },
+      ])
+    } else if (role === "reader") {
+      setMenu([
+        {
+          text: "Dashboard",
+          icon: <DashboardIcon />,
+          url: '/dashboard'
         },
       ])
     }
@@ -90,11 +111,11 @@ function Base(props) {
       <Divider />
       <List>
         <ListItem disablePadding>
-          <ListItemButton>
+          <ListItemButton onClick={() => goToUrl('/')}>
             <ListItemIcon>
-              <InboxIcon />
+              <MenuBookIcon />
             </ListItemIcon>
-            <ListItemText primary="Inicio" onClick={() => goToUrl('/')} />
+            <ListItemText primary="Biblioteca" />
           </ListItemButton>
         </ListItem>
       </List>
@@ -140,18 +161,14 @@ function Base(props) {
             sx={{ mr: 1 }}
             onClick={() => goToUrl('/')}
           >
-            <LocalLibraryIcon />
+            <MenuBookIcon />
           </IconButton>
-          <Stack direction="row" justifyContent="space-between" sx={{ width: "100%" }}>
+          <Stack direction={{ xs: 'column', sm: 'row' }} justifyContent={{ xs: "center", sm: 'space-between' }} alignItems="center" sx={{ width: "100%" }} spacing={2}>
             <Typography variant="h5" noWrap component="div" onClick={() => goToUrl('/')} sx={{ cursor: "pointer" }}>
               Biblioteca de contenidos
             </Typography>
-            <Box>
-              <Button variant="outlined" color="inherit" sx={{ ml: 1 }} onClick={logout}>Cerrar sesión</Button>
-            </Box>
-
+            <Button variant="outlined" color="inherit" sx={{ ml: 1 }} onClick={logout}>Cerrar sesión</Button>
           </Stack>
-
         </Toolbar>
       </AppBar>
       <Box
@@ -166,7 +183,7 @@ function Base(props) {
           onTransitionEnd={handleDrawerTransitionEnd}
           onClose={handleDrawerClose}
           ModalProps={{
-            keepMounted: true, // Better open performance on mobile.
+            keepMounted: true,
           }}
           sx={{
             display: { xs: 'block', sm: 'none' },

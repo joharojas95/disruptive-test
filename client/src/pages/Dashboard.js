@@ -1,8 +1,10 @@
-function Dashboard({role}) {
+import Typography from '@mui/material/Typography';
+
+function Dashboard({ role, user_name }) {
 
   return (
     <>
-      Bienvenido, {role}<br></br><br></br>
+      <Typography variant="h6">Bienvenido, <b>{user_name}</b>. Tu rol actual es: <b>{role}</b>.</Typography>
     </>
   );
 }

@@ -132,7 +132,7 @@ export default function Themes() {
             <Grid container spacing={2}>
                 <Grid item xs={12}>
                     <Stack direction="row" sx={{ justifyContent: "space-between" }}>
-                        <Typography>Lista de temas</Typography>
+                    <Typography variant="h6">Lista de temas</Typography>
                         <Button variant="contained" onClick={handleAddModal}>Agregar</Button>
                     </Stack>
                 </Grid>

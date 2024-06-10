@@ -18,7 +18,9 @@ function App() {
     if (token) {
       const decoded = jwtDecode(token);
       const role = decoded.role
-      return <BaseLogin role={role}>{cloneElement(children, { role })}</BaseLogin>;
+      const user_id = decoded.id
+      const user_name = decoded.username
+      return <BaseLogin role={role}>{cloneElement(children, { role, user_id, user_name })}</BaseLogin>;
     } else {
       return <Navigate to="/login" />;
     }

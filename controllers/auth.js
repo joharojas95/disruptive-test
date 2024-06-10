@@ -5,16 +5,19 @@ module.exports = function (app) {
     const config = require('../config');
     const User = require('../models/User');
 
-    // Register Route
+    // Endpoint registro de usuarios
     app.post('/register', async (req, res) => {
         const { username, email, password, role } = req.body;
 
         try {
+
+            // Se valida si existe el correo
             let userVerif = await User.findOne({ email });
             if (userVerif) {
                 return res.status(400).json({ msg: 'El correo ya existe' });
             }
 
+            // Se valida si existe el usuario
             let usernameVerif = await User.findOne({ username });
             if (usernameVerif) {
                 return res.status(400).json({ msg: 'El nombre de usuario ya existe' });
@@ -22,32 +25,40 @@ module.exports = function (app) {
 
             let finalUser = new User({ username, email, password, role });
 
+            // Hash password
             const salt = await bcrypt.genSalt(10);
             finalUser.password = await bcrypt.hash(password, salt);
 
+            // Se guarda en BD
             await finalUser.save();
 
-            res.status(201).json({ message: 'User registered successfully' });
-
-
+            res.status(201).json({ message: 'Usuario registrado exitosamente' });
         } catch (err) {
             console.error(err);
             res.status(500).send('Server Error');
         }
     });
 
+    // Endpoint login de usuarios
     app.post('/login', async (req, res) => {
         const { email, password } = req.body;
 
         try {
-            // Check if the user exists
+
+            // Se valida si existe el usuario y si las credencials
             let user = await User.findOne({ email });
-            if (!user  || !user.comparePassword(password)) {
+            if (!user) {
+                return res.status(400).json({ msg: 'No existe el usuario' });
+            }
+
+            // Se validan las credencials
+            if (!user.comparePassword(password)) {
                 return res.status(400).json({ msg: 'Credenciales inválidas' });
             }
 
             const payload = { id: user._id, role: user.role, username: user.username };
 
+            // token de auth
             jwt.sign(payload, config.jwtSecret, { expiresIn: '1h' },
                 (err, token) => {
                     if (err) throw err;
@@ -59,23 +70,26 @@ module.exports = function (app) {
         }
     });
 
+    // Endpoint para verificar si un correo o username existe
     app.get('/verifyEmail', async (req, res) => {
-        let findUser = await User.findOne({ email: req.query.email });
+        try {
+            let findUser;
+            if (req.query.email) {
+                findUser = await User.findOne({ email: req.query.email });
+            }
 
-        if (findUser) {
-            res.status(200).send(true);
-        } else {
-            res.status(200).send(false);
-        }
-    });
+            if (req.query.username) {
+                findUser = await User.findOne({ username: req.query.username });
+            }
 
-    app.get('/verifyUsername', async (req, res) => {
-        let findUser = await User.findOne({ username: req.query.username });
-
-        if (findUser) {
-            res.status(200).send(true);
-        } else {
-            res.status(200).send(false);
+            if (findUser) {
+                res.status(200).send(true);
+            } else {
+                res.status(200).send(false);
+            }
+        } catch (err) {
+            console.error(err.message);
+            res.status(500).send('Server Error');
         }
     });
 

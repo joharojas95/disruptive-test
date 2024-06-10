@@ -74,7 +74,7 @@ export default function RegisterCard({ setRegister, setShowSnackbar }) {
   };
 
   const verifyUsername = async (username) => {
-    await axios.get("/verifyUsername?username=" + username)
+    await axios.get("/verifyEmail?username=" + username)
       .then((response) => {
         setExistingUsername(response.data);
       })

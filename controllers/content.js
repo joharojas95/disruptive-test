@@ -16,7 +16,6 @@ module.exports = function (app) {
         },
         filename: function (req, file, cb) {
             // Generar un nombre único para la imagen
-            console.log(Date.now() + '-' + file.originalname)
             cb(null, Date.now() + '-' + file.originalname)
         }
     })
@@ -28,6 +27,7 @@ module.exports = function (app) {
         limits: { files: 2 }
     });
 
+    // Endpoint retorna todo los contenidos
     app.get('/content/all', async (req, res) => {
         let contents = await Content.find().populate('theme').populate({
             path: 'category',
@@ -38,6 +38,7 @@ module.exports = function (app) {
         res.status(200).send(contents)
     });
 
+    // Endpoint retorna los contenidos por rol usuario y usuario
     app.get('/content/all/user/:user', async (req, res) => {
 
         let user = User.findOne({ _id: req.params.user })
@@ -68,16 +69,12 @@ module.exports = function (app) {
         { name: 'img2', maxCount: 1 }
     ]), async (req, res) => {
         try {
-            console.log(req.files)
             const { name, description, user, theme, type, url } = req.body;
 
             let findType = await Category.findOne({ _id: type }).populate('type')
 
-            console.log(findType.type.name)
-
             // Validar si el tipo es una URL
             if (findType.type.name === 'URLs de YouTube') {
-                // Aquí podrías añadir más validaciones si lo necesitas
 
                 // Guardar el contenido con URL
                 const newContent = new Content({
@@ -93,7 +90,6 @@ module.exports = function (app) {
                 const savedContent = await newContent.save();
                 res.json(savedContent);
             } else {
-                // Guardar el contenido con URL
                 const newContent = new Content({
                     name,
                     description,
@@ -213,8 +209,7 @@ module.exports = function (app) {
                 return res.status(404).send({ message: 'Contenido no encontrado' });
             }
 
-            const filePath = path.join(__dirname, '../public' + item.content); // Asegúrate de que esta ruta sea correcta
-
+            const filePath = path.join(__dirname, '../public' + item.content);
             res.download(filePath);
         } catch (error) {
             res.status(500).send({ message: 'Error al buscar el contenido', error });

@@ -2,6 +2,7 @@ module.exports = function (app) {
 
     const Type = require('../models/Type');
 
+    // Endpoint para retornar todos los tipos
     app.get('/types/all', async (req, res) => {
         let types = await Type.find().lean();
 

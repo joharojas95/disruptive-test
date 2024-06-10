@@ -2,6 +2,7 @@ module.exports = function (app) {
 
     const Theme = require('../models/Theme');
 
+    // Endpoint para retornar todos los temas
     app.get('/theme/all', async (req, res) => {
         let themes = await Theme.find().populate({
             path: 'categories',
@@ -15,7 +16,6 @@ module.exports = function (app) {
     // Endpoint para agregar un nuevo tema
     app.post('/theme/add', async (req, res) => {
         try {
-            // Extraer los datos de la solicitud
             const { name, categories } = req.body;
 
             let verifTheme = await Theme.findOne({ name: name })

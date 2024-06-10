@@ -5,12 +5,13 @@ module.exports = function (app) {
     const Category = require('../models/Category');
     const { checkUserRole } = require('./roleMiddleware');
 
+    // Endpoint retorna todas las categorías
     app.get('/category/all', async (req, res) => {
         let categories = await Category.find().populate('type').lean();
         res.status(200).send(categories)
     });
 
-    // Ruta para agregar una nueva categoría
+    // Endpoint para agregar una nueva categoría
     app.post('/category/add', passport.authenticate('jwt', { session: false }), checkUserRole(['admin']), async (req, res) => {
         try {
             const { name, typeId } = req.body;
@@ -23,13 +24,12 @@ module.exports = function (app) {
 
             // Verificar si existe el nombre de categoría
             const categoryVerif = await Category.findOne({ name: name });
-
             if (categoryVerif) {
                 return res.status(400).json({ msg: 'El nombre de categoría ya existe' });
             }
 
+            // Verificar si existe ya el tipo de categoría
             const categoryVerifType = await Category.findOne({ type: typeId });
-
             if (categoryVerifType) {
                 return res.status(400).json({ msg: 'Ya existe una categoría con este tipo de contenido' });
             }
@@ -50,7 +50,7 @@ module.exports = function (app) {
         }
     });
 
-    // Ruta para borrar un ítem
+    // Endpoint para borrar una categoría
     app.delete('/category/delete/:id', passport.authenticate('jwt', { session: false }), checkUserRole(['admin']), async (req, res) => {
         try {
             const item = await Category.findByIdAndDelete(req.params.id);
@@ -63,7 +63,7 @@ module.exports = function (app) {
         }
     });
 
-    // Ruta para borrar un ítem
+    // Endpoint para obtenr una categoría
     app.get('/category/get/:id', passport.authenticate('jwt', { session: false }), checkUserRole(['admin']), async (req, res) => {
         try {
             const item = await Category.findById(req.params.id);
@@ -76,7 +76,7 @@ module.exports = function (app) {
         }
     });
 
-    // Ruta para editar una categoría
+    // Endpoint para editar una categoría
     app.put('/category/update', passport.authenticate('jwt', { session: false }), checkUserRole(['admin']), async (req, res) => {
         try {
             const { id, name, typeId } = req.body;
@@ -89,13 +89,12 @@ module.exports = function (app) {
 
             // Verificar si existe el nombre de categoría
             const categoryVerif = await Category.findOne({ name: name, _id: { $ne: id } });
-
             if (categoryVerif) {
                 return res.status(400).json({ msg: 'El nombre de categoría ya existe' });
             }
 
+            // Verificar si existe ya el tipo de categoría
             const categoryVerifType = await Category.findOne({ type: typeId, _id: { $ne: id } });
-
             if (categoryVerifType) {
                 return res.status(400).json({ msg: 'Ya existe una categoría con este tipo de contenido' });
             }

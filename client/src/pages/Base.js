@@ -77,7 +77,10 @@ function Base(props) {
         component="main"
         sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
       >
-        <Toolbar />
+        <Stack direction={{ xs: 'column', sm: 'row' }}>
+          <Toolbar /><Toolbar /><Toolbar />
+        </Stack>
+
         {children}
         {/* <ActionAreaCard /> */}
       </Box>

@@ -88,7 +88,6 @@ function Home(props) {
 
   return (
     <Base>
-
       {allCategories.length > 0 ? allCategories.map((category) => {
         if (allContent.filter((item) => item.category._id === category._id).length > 0) {
           return (
@@ -152,7 +151,7 @@ function Home(props) {
         } else {
           return ""
         }
-      }) : ""}
+      }) : "No hay contenido, por ahora."}
     </Base>
   );
 }
